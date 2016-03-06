@@ -5,7 +5,7 @@ class LinkedList(object):
         self.head = head
         self.tail = tail
 
-    def show_whole_list(self):
+    def print_list(self):
         """ displays entire list with print statements
         :return: none
         """
@@ -23,9 +23,27 @@ class LinkedList(object):
 
         if self.head:
             current = self.head
-            while current != None:
+            while current is not None:
                 if current.data == data:
                     return current
+                current = current.next
+
+    def add_in_order(self, data, after):
+        """ Adds new node with data, after input node.
+        :param data: content of node, after: node before new node
+        :return: none
+        """
+
+        if self.head:
+            current = self.head
+            while current is not None:
+                if current.data == after:
+                    new_node = LLNode(data)
+                    new_node.next = current.next
+                    current.next = new_node
+                    if self.tail == current:
+                        self.tail = new_node
+                    return
                 current = current.next
 
     def remove(self, data):
@@ -52,6 +70,26 @@ class LinkedList(object):
                 return
             else:
                 current = current.next
+
+    def reverse(self):
+        """ reverse the order of the linked list
+        :return: linked list
+        """
+
+        old_head = self.head
+        current = self.head
+        iter = 0
+        while self.tail != old_head:
+            while current.next != self.tail:
+                current = current.next
+            current.next.next = current
+            self.tail = current
+            if iter == 0:
+                self.head = current.next
+                iter = 1
+            current = old_head
+        current.next = None
+
 
 
 class LLNode(object):
@@ -84,7 +122,9 @@ nick.next = alison
 dana = LLNode("Dana")
 alison.next = dana
 consolis.tail = dana
-
+consolis.print_list()
+consolis.reverse()
+consolis.print_list()
 
 
 class DoublyLinkedList(object):
@@ -137,3 +177,8 @@ sonja.next = kara
 kara.prev = sonja
 kara.next = anja
 anja.prev = kara
+
+
+
+# functions in demo: add node, remove node, remove node by index,
+# print list, find node, add (no tail), print (no tail)
