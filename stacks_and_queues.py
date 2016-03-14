@@ -1,6 +1,5 @@
 class Stack(object):
-    """ stack
-    """
+    """ stack """
 
     def __init__(self, starting_list=None):
         if starting_list is None:
@@ -23,4 +22,8 @@ class Stack(object):
 
         popped = self._list.pop()
         return popped
+
+
+class Queue(object):
+    """ queue """
 
