@@ -83,26 +83,29 @@ class DLLQueue(object):
 
     def __init__(self, starting_list=[]):
 
+        working_list = []
         for item in starting_list:
-            item = DLLNode(item)
-            print item
+            node = DLLNode(item)
+            working_list.append(node)
 
-        if len(starting_list) > 0:
+        if len(working_list) > 0:
 
-            self.head = starting_list[0]
-            self.tail = starting_list[-1]
-            if len(starting_list) > 1:
-                self.head.next = starting_list[1]
-                self.tail.prev = starting_list[-2]
+            self.head = working_list[0]
+            self.tail = working_list[-1]
+            if len(working_list) > 1:
+                self.head.next = working_list[1]
+                self.tail.prev = working_list[-2]
 
-            for i in range(1, len(starting_list)-1):
-                starting_list[i].prev = starting_list[i-1]
-                starting_list[i].next = starting_list[i+1]
+            for i in range(1, len(working_list)-1):
+                working_list[i].prev = working_list[i-1]
+                working_list[i].next = working_list[i+1]
 
     def print_Q(self):
 
         current = self.head
+        print current.data
         while current.next != None:
+            current = current.next
             print current.data
 
     def enqueue(self, node):
@@ -114,7 +117,7 @@ class DLLQueue(object):
         self.tail = new_item
 
 
-    def dequeue(self, node):
+    def dequeue(self):
 
         dequeued_item = self.head
         new_head = self.head.next
@@ -122,7 +125,7 @@ class DLLQueue(object):
         self.head = new_head
         return dequeued_item
 
-    def peek(self, node):
+    def peek(self):
 
         return self.head
 
