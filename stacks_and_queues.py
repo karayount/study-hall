@@ -81,16 +81,63 @@ class Queue(object):
 class DLLQueue(object):
     """ queue built on doubly linked list """
 
-    pass
+    def __init__(self, starting_list=[]):
+
+        for item in starting_list:
+            item = DLLNode(item)
+            print item
+
+        if len(starting_list) > 0:
+
+            self.head = starting_list[0]
+            self.tail = starting_list[-1]
+            if len(starting_list) > 1:
+                self.head.next = starting_list[1]
+                self.tail.prev = starting_list[-2]
+
+            for i in range(1, len(starting_list)-1):
+                starting_list[i].prev = starting_list[i-1]
+                starting_list[i].next = starting_list[i+1]
+
+    def print_Q(self):
+
+        current = self.head
+        while current.next != None:
+            print current.data
+
+    def enqueue(self, node):
+
+        new_item = DLLNode(node)
+        self.tail.next = new_item
+        new_item.prev = self.tail
+        new_item.next = None
+        self.tail = new_item
 
 
-class DLL(object):
-    """ doubly linked list """
+    def dequeue(self, node):
 
-    pass
+        dequeued_item = self.head
+        new_head = self.head.next
+        new_head.prev = None
+        self.head = new_head
+        return dequeued_item
+
+    def peek(self, node):
+
+        return self.head
+
+    def is_empty(self):
+
+        return self.head is None
 
 
 class DLLNode(object):
     """ node of a doubly linked list """
 
+    def __init__(self, data, prev=None, next=None):
+        self.data = data
+        self.prev = prev
+        self.next = next
 
+
+consolis = DLLQueue(["Kara", "Kevin", "Kyla", "Chris", "Nick", "Ali", "Dana"])
