@@ -54,23 +54,23 @@ class Node(object):
         them.
         """
 
-        if self.children == []:
-            return 1
-        else:
-            sum = len(self.children)
-            for child in self.children:
-                if child.children != []:
-                    sum += child.count_employees()
-            return sum
+        count = 0
+        for child in self.children:
+            count = count + 1 + child.count_employees()
+
+        return count
 
     def count_employees_nonrecursive(self):
 
-        if self.children == []:
-            return 0
-        else:
-            emps = []
+        count = 0
+        to_check = [self]
+        while to_check:
+            check = to_check.pop()
+            for child in check.children:
+                count += 1
+                to_check.append(child)
+        return count
 
-        return 8
 
 if __name__ == '__main__':
     import doctest
