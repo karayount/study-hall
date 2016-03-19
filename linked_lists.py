@@ -90,7 +90,21 @@ class LinkedList(object):
             current = old_head
         current.next = None
 
+    def reverse_better(self):
+        if self.head is None:
+            return
+        new_head = None
+        new_tail = self.head
+        current = self.head
+        while current is not None:
+            next_up = current.next
+            self.head = current.next
+            current.next = new_head
+            new_head = current
+            current = next_up
 
+        self.tail = new_tail
+        self.head = new_head
 
 class LLNode(object):
     """ node of a linked list, pointer to next"""
