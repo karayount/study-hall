@@ -19,4 +19,6 @@ def three_sum_to_zero(lst):
 
 
 num_list = [1, -1, 3, 5, 2, -2]
+falsy = [1, 2, 3, 4, 5, 6, 0]
 print three_sum_to_zero(num_list)
+print three_sum_to_zero(falsy)

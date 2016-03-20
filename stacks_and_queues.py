@@ -29,7 +29,8 @@ class Stack(object):
     def peek(self):
         """ show item at top of stack """
 
-
+        top_of_stack = self._list[-1]
+        return top_of_stack
 
 
 class Queue(object):
