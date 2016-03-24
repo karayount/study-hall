@@ -137,7 +137,7 @@ dana = LLNode("Dana")
 alison.next = dana
 consolis.tail = dana
 consolis.print_list()
-consolis.reverse()
+consolis.reverse_better()
 consolis.print_list()
 
 
