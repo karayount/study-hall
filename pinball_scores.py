@@ -12,39 +12,76 @@ class minHeap(object):
         self._heap_list = [0]
         self._size = 0
 
-    def pop(self):
+    def get_min(self):
         """ Removes and returns smallest item in heap.
         Heapifies remaining elements.
 
         Returns None if heap is empty. """
 
         if self._size < 1:
-            return
+            return None
+
         smallest = self._heap_list[1]
+        max = self._size
+
         # move end item to root
-        # perc_down(root)
+        self._heap_list[1] = self._heap_list[max]
+        self._heap_list.pop()
+        self._size = max-1
+        self._perc_down(1)
+
         return smallest
 
+
     def push(self, value):
-        pass
+        self._heap_list.append(value)
+        self._size += 1
+        self._perc_up(self._size)
 
     def peek(self):
         """ returns value of smallest item in heap, None if empty"""
         if self._size < 1:
-            return
+            return None
         else:
             return self._heap_list[1]
 
     def current_size(self):
         return self._size
 
-    def _perc_up(self):
-        pass
+    def _perc_up(self, index):
+        i = index
+        while i / 2 > 0:
+            if self._heap_list[i] < self._heap_list[i/2]:
+                temp = self._heap_list[i/2]
+                self._heap_list[i/2] = self._heap_list[i]
+                self._heap_list[i] = temp
+            i = i/2
 
-    def _perc_down(self):
-        # find smallest child
-        # while this is larger than smallest child, swap
-        pass
+
+    def _perc_down(self, index):
+        i = index
+        sc = self._find_smaller_child(i)
+        while sc <= self._size:
+            if self._heap_list[i] > self._heap_list[sc]:
+                temp = self._heap_list[sc]
+                self._heap_list[sc] = self._heap_list[i]
+                self._heap_list[i] = temp
+            i = sc
+            sc = self._find_smaller_child(i)
+
+
+    def _find_smaller_child(self, i):
+        """ find the smaller of node's children, if any children exist
+        :param i: index of node
+        :return: index of smaller of node's children
+        """
+
+        if self._size < (2*i)+1:
+            return 2*i
+        if self._heap_list[2*i] > self._heap_list[(2*i)+1]:
+            return 2*i
+        else:
+            return (2*i) + 1
 
 
 def find_top_ten(scores_list):
@@ -62,7 +99,7 @@ def find_top_ten(scores_list):
         else:
             tenth_highest = high_scores.peek()
             if score > tenth_highest:
-                high_scores.pop()
+                high_scores.get_min()
                 high_scores.push(score)
 
     # build list of high scores from heap
@@ -70,8 +107,13 @@ def find_top_ten(scores_list):
     top_scores_list = [None] * how_many_high_scores
     last = how_many_high_scores - 1
     for i in range(last, -1, -1):
-        score = high_scores.pop()
+        score = high_scores.get_min()
         top_scores_list[i] = score
 
     return top_scores_list
 
+
+scores1 = [1, 4, 100, 62, 7, 48, 15, 66, 92, 45, 53, 56, 18, 27, 40]
+scores2 = [10, 14, 16, 17, 18]
+print find_top_ten(scores1)
+print find_top_ten(scores2)
