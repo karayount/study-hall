@@ -76,12 +76,14 @@ class minHeap(object):
         :return: index of smaller of node's children
         """
 
-        if self._size < (2*i)+1:
-            return 2*i
-        if self._heap_list[2*i] > self._heap_list[(2*i)+1]:
-            return 2*i
+        left_child_index = 2*i
+        right_child_index = (2*i)+1
+        if self._size < right_child_index:
+            return left_child_index
+        if self._heap_list[left_child_index] < self._heap_list[right_child_index]:
+            return left_child_index
         else:
-            return (2*i) + 1
+            return right_child_index
 
 
 def find_top_ten(scores_list):
