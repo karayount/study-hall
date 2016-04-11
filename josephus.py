@@ -44,29 +44,98 @@ def find_next_index(start, lst, increment):
         count += 1
     return index
 
+def find_survivor(num_people, kill_every):
+    
+
+
 
 class LinkedList(object):
-    def __init__(self, head=None):
+    """ Linked list, pointers to head, tail"""
+
+    def __init__(self, head=None, tail=None):
         self.head = head
+        self.tail = tail
 
-    def remove(self, node):
-        if not self.head:
-            return
-        if node == self.head:
-            self.head = None
-            return
+    def print_list(self):
+        """ displays entire list with print statements
+        :return: none
+        """
+
         current = self.head
-        while current.next != node:
-
+        while current != None:
+            print current
             current = current.next
 
+    def find(self, data):
+        """ finds Node in LL with input data.
+        :param data: data attribute of Node sought
+        :return: Node sought
+        """
 
+        if self.head:
+            current = self.head
+            while current is not None:
+                if current.data == data:
+                    return current
+                current = current.next
+
+    def add_in_order(self, data, after):
+        """ Adds new node with data, after input node.
+        :param data: content of node, after: node before new node
+        :return: none
+        """
+
+        if self.head:
+            current = self.head
+            while current is not None:
+                if current.data == after:
+                    new_node = LLNode(data)
+                    new_node.next = current.next
+                    current.next = new_node
+                    if self.tail == current:
+                        self.tail = new_node
+                    return
+                current = current.next
+
+    def remove(self, data):
+        """ Finds Node in LL with input data and removes from LL
+        :param data: data attribute of Node to be removed
+        :return: none
+        """
+
+        # account for empty list
+        if self.head and self.head.data == data:
+            # account for case where data sought is head of list
+                self.head = self.head.next
+                return
+
+        current = self.head
+
+        while current.next is not None:
+            if current.next.data == data:
+                if current.next == self.tail:
+                    self.tail = current
+                    current.next = current.next.next
+                    return
+                current.next = current.next.next
+                return
+            else:
+                current = current.next
 
 
 class LLNode(object):
+    """ node of a linked list, pointer to next"""
+
     def __init__(self, data, next=None):
         self.data = data
         self.next = next
+
+    def __repr__(self):
+        """ make it pretty
+        :return: string
+        """
+
+        return "<LLNode data=%s>" % (self.data)
 
 
 
