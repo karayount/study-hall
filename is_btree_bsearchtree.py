@@ -4,7 +4,7 @@ search tree.
 Assume values of nodes are in range (-500, 500)
 """
 
-class BSTNode(object):
+class BTreeNode(object):
 
     def __init__(self, data, left=None, right=None):
         self.data = data
@@ -12,7 +12,7 @@ class BSTNode(object):
         self.right = right
 
     def __repr__(self):
-        return "<BSTNode data=%s>" % self.data
+        return "<BTreeNode data=%s>" % self.data
 
 
 def build_btree_from_array(arr):
@@ -32,7 +32,7 @@ def help_build_btree(arr, start, end):
     right_end = end
     current = arr[mid]
 
-    node = BSTNode(current,
+    node = BTreeNode(current,
                    help_build_btree(arr, left_start, left_end),
                    help_build_btree(arr, right_start, right_end))
 
