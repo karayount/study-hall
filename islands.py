@@ -1,5 +1,5 @@
 """ Given a grid (an MxN 2D array), count the 'islands' where an island is any
-set of adjacent filled squares, where the set is surrounded on all sides by an
+set of adjacent filled squares, where the set is surrounded on each side by an
 empty square or the edge of the grid. Adjacency is defined by shared edges,
 not shared corners (i.e., diagonal adjacency is excluded).
 
@@ -7,19 +7,50 @@ A single filled square with no adjacent filled squares is an island.
 A completely filled grid contains 1 island.
 A completely empty grid contains 0 islands.
 
-[
-[ , , ,x,x,x],
-[x, , , , , ],
-[ , ,x,x,x, ], ==>  4 islands
-[x,x, ,x,x, ],
-[x, , ,x, , ]
-]
+>>> four_grid = [[" ", " ", " ", "x", "x", "x"],
+...              ["x", " ", " ", " ", " ", " "],
+...              [" ", " ", "x", "x", "x", " "],
+...              ["x", "x", " ", "x", "x", " "],
+...              ["x", " ", " ", "x", " ", " "]]
+>>> count_islands(four_grid)
+4
+
+>>> zero_grid = [[" ", " "],
+...              [" ", " "],
+...              [" ", " "]]
+>>> count_islands(zero_grid)
+0
+
+>>> one_grid = [["x", "x", "x"],
+...             ["x", "x", "x"]]
+>>> count_islands(one_grid)
+1
+
+>>> single_grid = [["x"]]
+>>> count_islands(single_grid)
+1
+
+>>> just_x = [["x"],
+...           ["x"],
+...           ["x"],
+...           ["x"]]
+>>> count_islands(just_x)
+1
+
+>>> just_y = [["x", "x", "x", "x"]]
+>>> count_islands(just_y)
+1
+
+>>> empty_grid = [[]]
+>>> count_islands(empty_grid)
+0
+
 """
 
 def count_islands(grid):
     """ From input 2D array, count islands of adjacent "filled" cells
-    :param grid: an N x M 2D array
-    :return: integer number if islands
+    :param grid: an M x N 2D array
+    :return: integer number of islands
     """
 
     # store size of input 2D array
@@ -29,22 +60,23 @@ def count_islands(grid):
     land_indicator = 'x'
 
     # initialize place to store all identified land
-    land = set()
+    known_land = set()
     island_count = 0
 
     # iterate through whole array. for each cell with land, if not part of known
     # island, add all parts of that island to known land, and increment counter
     for i in range(M):
         for j in range(N):
-            if grid[i][j] == land_indicator and (i, j) not in land:
-                land.add((i, j))
-                land = find_rest_of_island(i, j, grid, land)
+            if grid[i][j] == land_indicator and (i, j) not in known_land:
+                known_land.add((i, j))
+                rest = find_rest_of_island(i, j, grid)
+                known_land.update(rest)
                 island_count += 1
 
     return island_count
 
 
-def find_rest_of_island(x, y, grid, land):
+def find_rest_of_island(x, y, grid, land=None):
     """ starting from a cell, add all adjacent land cells to land
     :param x: x-coordinate of starting cell
     :param y: y-coordinate of starting cell
@@ -58,7 +90,7 @@ def find_rest_of_island(x, y, grid, land):
 
     max_x = len(grid) - 1
     max_y = len(grid[0]) - 1
-    seen = land
+    seen = land or set()
 
     # character used to indicate land in array
     land_indicator = 'x'
@@ -87,21 +119,8 @@ def find_rest_of_island(x, y, grid, land):
     return seen
 
 
-# test some grids
-four_grid = [[" ", " ", " ", "x", "x", "x"],
-             ["x", " ", " ", " ", " ", " "],
-             [" ", " ", "x", "x", "x", " "],
-             ["x", "x", " ", "x", "x", " "],
-             ["x", " ", " ", "x", " ", " "]]
-zero_grid = [[" ", " "], [" ", " "], [" ", " "]]
-one_grid = [["x", "x", "x"], ["x", "x", "x"]]
-single_grid = [["x"]]
-just_x = [["x"], ["x"], ["x"], ["x"]]
-just_y = [["x", "x", "x", "x"]]
+if __name__ == '__main__':
+    import doctest
 
-print count_islands(four_grid)
-print count_islands(zero_grid)
-print count_islands(one_grid)
-print count_islands(single_grid)
-print count_islands(just_x)
-print count_islands(just_y)
+    if doctest.testmod().failed == 0:
+        print "\n All tests passed.\n"
