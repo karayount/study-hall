@@ -38,13 +38,13 @@ def count_islands(grid):
         for j in range(N):
             if grid[i][j] == land_indicator and (i, j) not in land:
                 land.add((i, j))
-                land = find_rest_of_island(i, j, grid, land, land_indicator)
+                land = find_rest_of_island(i, j, grid, land)
                 island_count += 1
 
     return island_count
 
 
-def find_rest_of_island(x, y, grid, land, land_indicator):
+def find_rest_of_island(x, y, grid, land):
     """ starting from a cell, add all adjacent land cells to land
     :param x: x-coordinate of starting cell
     :param y: y-coordinate of starting cell
@@ -59,6 +59,9 @@ def find_rest_of_island(x, y, grid, land, land_indicator):
     max_x = len(grid) - 1
     max_y = len(grid[0]) - 1
     seen = land
+
+    # character used to indicate land in array
+    land_indicator = 'x'
 
     # check cell above when not at top
     if x > 0:
