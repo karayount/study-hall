@@ -34,37 +34,31 @@ def count_islands(grid):
 
     # iterate through whole array. for each cell with land, if not part of known
     # island, add all parts of that island to known land, and increment counter
-    i = 0
-    j = 0
     for i in range(M):
         for j in range(N):
-            if grid[i][j] == land_indicator:
-                if (i, j) not in land:
-                    land.add((i, j))
-                    land = find_rest_of_island(i, j, grid, land)
-                    island_count += 1
+            if grid[i][j] == land_indicator and (i, j) not in land:
+                land.add((i, j))
+                land = find_rest_of_island(i, j, grid, land, land_indicator)
+                island_count += 1
 
     return island_count
 
 
-def find_rest_of_island(x, y, grid, land):
+def find_rest_of_island(x, y, grid, land, land_indicator):
     """ starting from a cell, add all adjacent land cells to land
     :param x: x-coordinate of starting cell
     :param y: y-coordinate of starting cell
     :param grid: 2D array
     :param land: set of all known land cells
     :return: land
+
+    Excepting edge cells, check all adjacent cells for new land.
+    If land found, recurse to find remaining land.
     """
 
     max_x = len(grid) - 1
     max_y = len(grid[0]) - 1
     seen = land
-
-    # character used to indicate land in array
-    land_indicator = 'x'
-
-    # excepting edge cells, check all adjacent cells for new land
-    # if land found, recurse to find remaining land
 
     # check cell above when not at top
     if x > 0:
@@ -88,6 +82,7 @@ def find_rest_of_island(x, y, grid, land):
             find_rest_of_island(x, y+1, grid, seen)
 
     return seen
+
 
 # test some grids
 four_grid = [[" ", " ", " ", "x", "x", "x"],
