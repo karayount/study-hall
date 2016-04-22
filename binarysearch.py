@@ -47,6 +47,25 @@ def binary_search(val):
 
     return num_guesses
 
+
+def broader_binary_search(sorted_integer_array, sought_value):
+    """ return index of sought item, -1 if not found """
+    if len(sorted_integer_array) == 0:
+        return -1
+    start = 0
+    end = len(sorted_integer_array)
+    mid = (start+end)/2
+    while start < end:
+        if sorted_integer_array[mid] == sought_value:
+            return mid
+        elif sorted_integer_array[mid] < sought_value:
+            start = mid+1
+        elif sorted_integer_array[mid] > sought_value:
+            end = mid
+        mid = (start + end) / 2
+    return -1
+
+
 if __name__ == '__main__':
     import doctest
 
